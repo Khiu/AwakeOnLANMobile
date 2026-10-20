@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, Alert } from 'react-native';
+import { View, Text, FlatList, Alert, ToastAndroid } from 'react-native';
 import { useDeviceContext } from '../contexts/DeviceContext';
 import { CustomButton } from './CustomButton';
 import { dynamicDeviceFlatListStyles } from '../styles/flatList';
@@ -14,16 +14,6 @@ export const DeviceFlatList = ({ setEditingDevice }: DeviceFlatListProps) => {
   const { devices, deleteDevice } = useDeviceContext(); // Destructure only the necessary functions from useDeviceContext() hook
   const styles = dynamicDeviceFlatListStyles();
 
-  const buildMessage = (item: DeviceType) => {
-    const fields = [];
-    if (item.name) fields.push(`Name: ${item.name}`);
-    if (item.macAddr) fields.push(`MAC: ${item.macAddr}`);
-    if (item.ipAddr) fields.push(`IP: ${item.ipAddr}`);
-    if (item.port) fields.push(`Port: ${item.port}`);
-    if (item.passwd) fields.push(`Passwd: ${item.passwd}`);
-    return fields.join('\n');
-  };
-
   const wakeButton = (item: DeviceType) => {
     try {
       NativeModule.SendWOL(item.macAddr, item.ipAddr, item.port, item.passwd);
@@ -31,9 +21,12 @@ export const DeviceFlatList = ({ setEditingDevice }: DeviceFlatListProps) => {
       console.error('An error occurred:', error);
     }
 
-    Alert.alert('Wake On LAN packet sent to:', buildMessage(item), [
-      { text: 'OK' },
-    ]);
+    ToastAndroid.show(
+      `Wake sent: ${
+        item.name ? `${item.name} (${item.macAddr})` : item.macAddr
+      }`,
+      ToastAndroid.LONG,
+    );
   };
 
   const deleteButton = (item: DeviceType) => {

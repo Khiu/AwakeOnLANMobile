@@ -34,6 +34,7 @@ export const TabNavigator = () => {
 
   return (
     <Tab.Navigator
+      initialRouteName="DeviceList"
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,

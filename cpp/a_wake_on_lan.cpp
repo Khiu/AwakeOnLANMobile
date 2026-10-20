@@ -2,7 +2,7 @@
 
 #define MAC_ADDR_BYTE_SZ 6
 // #define DEFAULT_IPV4_BCAST "255.255.255.255"
-#define DEFAULT_IPV4_BCAST "192.255.255.255" // Android restricts sending broadcasts to 255.255.255.255
+#define DEFAULT_IPV4_BCAST "255.255.255.255" // Android restricts sending broadcasts to 255.255.255.255
 #define DEFAULT_IPV6_MCAST "ff02::1"
 
 AWakeOnLAN::AWakeOnLAN(char *ip_addr_arg, char *port_arg, char *mac_arg, char *passwd_arg, bool ipv6_toggle)
